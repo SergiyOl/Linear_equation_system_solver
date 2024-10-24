@@ -17,22 +17,44 @@ namespace Linear_equation_systems
         public double[,] system;
         public double target_approx;
         public List<Iteration> iterations = new List<Iteration>();
-        public bool IsGaussSeidelMethod;
+        public bool isGaussSeidelMethod;
+        public bool isSolvable;
 
         public LE_System(double[,] system, double target_approx, bool IsGaussSeidelMethod)
         {
             this.system_initial = system;
             this.target_approx = target_approx;
-            this.IsGaussSeidelMethod = IsGaussSeidelMethod;
+            this.isGaussSeidelMethod = IsGaussSeidelMethod;
+
+            SolveEquation();
         }
 
-        public void SolveEquation()
-        {
 
+        private void SolveEquation()
+        {
+            // Перевірка умов збіжності ітераційного процесу
+            isSolvable = CheckEquation();
+            if (!isSolvable)
+                return;
+            // Ітерування (0 ітерація)
+            IterateZero();
+            // Ітерування (решта ітерацій)
+            while (true)
+            {
+                // Ітерування
+                Iterate();
+                // Перевірка наближення
+                bool isSolved = true;
+                for (int i = 0; i < system.GetLength(0); i++)
+                    if (iterations.Last().approx[i] > target_approx)
+                        isSolved = false;
+                if (isSolved)
+                    break;
+            }
         }
 
         // Перевірка умов збіжності ітераційного процесу
-        public bool CheckEquation()
+        private bool CheckEquation()
         {
             // Масив індексів найбільших чисел в рядах
             int[] indexArr = new int[system_initial.GetLength(0)];
@@ -59,7 +81,7 @@ namespace Linear_equation_systems
         }
 
         // Ітерування (0 ітерація)
-        public void IterateZero()
+        private void IterateZero()
         {
             double[] vararr = new double[system.GetLength(0)];
             double[] apparr = Enumerable.Repeat(0, system.GetLength(0)).Select(x => (double)x).ToArray(); //Заповнення значенням 0
@@ -71,13 +93,13 @@ namespace Linear_equation_systems
             iterations.Add(new Iteration(vararr, apparr));
         }
 
-        public void Iterate()
+        private void Iterate()
         {
             double[] varArr = new double[system.GetLength(0)];
             double[] approxArr = new double[system.GetLength(0)];
 
             // Знаходження змінних (Метод Зейзеля) (Gauss-Seidel method)
-            if (IsGaussSeidelMethod)
+            if (isGaussSeidelMethod)
             {
                 for (int i = 0; i < system.GetLength(0); i++)
                 {

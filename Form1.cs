@@ -22,30 +22,12 @@ namespace Linear_equation_systems
         public Form1()
         {
             InitializeComponent();
-            SolveEquation();
+            ShowEquation();
         }
 
 
-        void SolveEquation()
+        void ShowEquation()
         {
-            // Перевірка умов збіжності ітераційного процесу
-            if (!equation.CheckEquation())
-            {
-                label1.Text = "Рівняння не відповідає умовам ітераційного процесу";
-            }
-            // Ітерування (0 ітерація)
-            equation.IterateZero();
-            // Ітерування (решта ітерацій)
-            while(true)
-            {
-                equation.Iterate();
-                if (equation.iterations.Last().approx[0] < equation.target_approx &&
-                    equation.iterations.Last().approx[1] < equation.target_approx &&
-                    equation.iterations.Last().approx[2] < equation.target_approx )
-                {
-                    break;
-                }
-            }
             // Output to labels (TO DELETE)
             label1.Text = string.Join("   ", equation.iterations.ElementAt(0).variables);
             label2.Text = string.Join("   ", equation.iterations.ElementAt(1).variables);
