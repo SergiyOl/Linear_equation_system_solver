@@ -28,17 +28,17 @@ namespace Linear_equation_systems
 
         void SolveEquation()
         {
-            /*// Перевірка умов збіжності ітераційного процесу
-            if (!CheckEquation())
+            // Перевірка умов збіжності ітераційного процесу
+            if (!equation.CheckEquation())
             {
                 label1.Text = "Рівняння не відповідає умовам ітераційного процесу";
-            }*/
+            }
             // Ітерування (0 ітерація)
-            IterateZero();
+            equation.IterateZero();
             // Ітерування (решта ітерацій)
             while(true)
             {
-                Iterate();
+                equation.Iterate();
                 if (equation.iterations.Last().approx[0] < equation.target_approx &&
                     equation.iterations.Last().approx[1] < equation.target_approx &&
                     equation.iterations.Last().approx[2] < equation.target_approx )
@@ -59,69 +59,6 @@ namespace Linear_equation_systems
             label10.Text = string.Join("   ", equation.iterations.ElementAt(3).approx);
             label11.Text = string.Join("   ", equation.iterations.ElementAt(4).approx);
             label12.Text = string.Join("   ", equation.iterations.ElementAt(5).approx);
-        }
-
-        
-
-        // Ітерування (0 ітерація)
-        void IterateZero()
-        {
-            double[] vararr = new double[equation.system.GetLength(0)];
-            double[] apparr = Enumerable.Repeat(0, equation.system.GetLength(0)).Select(x => (double)x).ToArray(); //Заповнення значенням 0
-
-            for (int i = 0; i < equation.system.GetLength(0); i++)
-            {
-                vararr[i] = equation.system[i, equation.system.GetLength(1)-1] / equation.system[i, i];
-            }
-            equation.iterations.Add(new Iteration(vararr, apparr));
-        }
-
-        // Ітерування (решта ітерацій)
-        // TO DO: change from constant 3 to variable amount of variables
-        void Iterate()
-        {
-            double[] vararr = new double[equation.system.GetLength(0)];
-            double[] apparr = new double[equation.system.GetLength(0)]; //Заповнення значенням 0
-
-            // Знаходження змінних (Метод Зейзеля)
-            // TO DO
-            vararr[0] = ( (-equation.system[0, 1] * equation.iterations.Last().variables[1]) +
-                          (-equation.system[0, 2] * equation.iterations.Last().variables[2]) +
-                          (equation.system[0, equation.system.GetLength(1) - 1])) /
-                          (equation.system[0, 0]);
-            vararr[1] = ( (-equation.system[1, 0] * vararr[0]) +
-                          (-equation.system[1, 2] * equation.iterations.Last().variables[2]) +
-                          (equation.system[1, equation.system.GetLength(1) - 1])) /
-                          (equation.system[1, 1]);
-            vararr[2] = ( (-equation.system[2, 0] * vararr[0]) +
-                          (-equation.system[2, 1] * vararr[1]) +
-                          (equation.system[2, equation.system.GetLength(1) - 1])) /
-                          (equation.system[2, 2]);
-
-            /* 
-            // Знаходження змінних (Метод ітерацій)
-            // TO DO
-            vararr[0] = ( (-equation.system[0, 1] * equation.iterations.Last().variables[1]) +
-                          (-equation.system[0, 2] * equation.iterations.Last().variables[2]) +
-                          (equation.system[0, equation.system.GetLength(1) - 1])) /
-                          (equation.system[0, 0]);
-            vararr[1] = ( (-equation.system[1, 0] * equation.iterations.Last().variables[0]) +
-                          (-equation.system[1, 2] * equation.iterations.Last().variables[2]) +
-                          (equation.system[1, equation.system.GetLength(1) - 1])) /
-                          (equation.system[1, 1]);
-            vararr[2] = ( (-equation.system[2, 0] * equation.iterations.Last().variables[0]) +
-                          (-equation.system[2, 1] * equation.iterations.Last().variables[1]) +
-                          (equation.system[2, equation.system.GetLength(1) - 1])) /
-                          (equation.system[2, 2]);
-            */
-
-            // Знаходження наближення
-            for (int i = 0; i < equation.system.GetLength(0); i++)
-            {
-                apparr[i] = Abs(vararr[i] - equation.iterations.Last().variables[i]) / Abs(vararr[i]);
-            }
-            // Запис ітерації
-            equation.iterations.Add(new Iteration(vararr, apparr));
         }
     }
 }

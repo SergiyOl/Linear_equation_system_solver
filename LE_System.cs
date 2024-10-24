@@ -26,18 +26,18 @@ namespace Linear_equation_systems
             this.IsGaussSeidelMethod = IsGaussSeidelMethod;
         }
 
-        void SolveEquation()
+        public void SolveEquation()
         {
 
         }
 
         // Перевірка умов збіжності ітераційного процесу
-        bool CheckEquation()
+        public bool CheckEquation()
         {
             // Масив індексів найбільших чисел в рядах
             int[] indexArr = new int[system_initial.GetLength(0)];
             // Знаходження найбільших чисел в рядах
-            for (int i = 0; i < system_initial.GetLength(1); i++)
+            for (int i = 0; i < system_initial.GetLength(0); i++)
             {
                 // Відбір всіх чисел біля невідомих
                 double[] line = Enumerable.Range(0, system_initial.GetLength(0))
@@ -56,6 +56,78 @@ namespace Linear_equation_systems
                 for (int j = 0; j < system_initial.GetLength(1); j++)
                     system[indexArr[i], j] = system_initial[i, j];
             return true;
+        }
+
+        // Ітерування (0 ітерація)
+        public void IterateZero()
+        {
+            double[] vararr = new double[system.GetLength(0)];
+            double[] apparr = Enumerable.Repeat(0, system.GetLength(0)).Select(x => (double)x).ToArray(); //Заповнення значенням 0
+
+            for (int i = 0; i < system.GetLength(0); i++)
+            {
+                vararr[i] = system[i, system.GetLength(1) - 1] / system[i, i];
+            }
+            iterations.Add(new Iteration(vararr, apparr));
+        }
+
+        public void Iterate()
+        {
+            double[] varArr = new double[system.GetLength(0)];
+            double[] approxArr = new double[system.GetLength(0)];
+
+            // Знаходження змінних (Метод Зейзеля) (Gauss-Seidel method)
+            if (IsGaussSeidelMethod)
+            {
+                for (int i = 0; i < system.GetLength(0); i++)
+                {
+                    double num = 0;
+
+                    for (int j = 0; j < system.GetLength(0); j++)
+                    {
+                        if (j < i)
+                        {
+                            num += -system[i, j] * varArr[j];
+                        }
+                        if (j > i)
+                        {
+                            num += -system[i, j] * iterations.Last().variables[j];
+                        }
+                    }
+                    num += system[i, system.GetLength(1) - 1];
+                    num /= system[i, i];
+
+                    varArr[i] = num;
+                }
+            }
+            // Знаходження змінних (Метод ітерацій) (iterative method)
+            else
+            {
+                for (int i = 0; i < system.GetLength(0); i++)
+                {
+                    double num = 0;
+
+                    for (int j = 0; j < system.GetLength(0); j++)
+                    {
+                        if (j != i)
+                        {
+                            num += -system[i, j] * iterations.Last().variables[j];
+                        }
+                    }
+                    num += system[i, system.GetLength(1) - 1];
+                    num /= system[i, i];
+
+                    varArr[i] = num;
+                }
+            }
+
+            // Знаходження наближення
+            for (int i = 0; i < system.GetLength(0); i++)
+            {
+                approxArr[i] = Abs(varArr[i] - iterations.Last().variables[i]) / Abs(varArr[i]);
+            }
+            // Запис ітерації
+            iterations.Add(new Iteration(varArr, approxArr));
         }
     }
 }
