@@ -16,7 +16,7 @@ namespace Linear_equation_systems
     {
         //public static double[,] arr1 = { { 20, 1, 1, 23 }, { 0.5, -5, 3, -6.5 }, { 2, -2, 10, 8 } };
         public static double[,] arr1 = { { 5, -1, -1, 10 }, { 1, 4, -2, 8 }, { 4, 2, 7, 14 } };
-        LE_System equation = new LE_System(arr1, 0.001);
+        LE_System equation = new LE_System(arr1, 0.001, true);
 
 
         public Form1()
@@ -28,11 +28,11 @@ namespace Linear_equation_systems
 
         void SolveEquation()
         {
-            // Перевірка умов збіжності ітераційного процесу
+            /*// Перевірка умов збіжності ітераційного процесу
             if (!CheckEquation())
             {
                 label1.Text = "Рівняння не відповідає умовам ітераційного процесу";
-            }
+            }*/
             // Ітерування (0 ітерація)
             IterateZero();
             // Ітерування (решта ітерацій)
@@ -61,28 +61,7 @@ namespace Linear_equation_systems
             label12.Text = string.Join("   ", equation.iterations.ElementAt(5).approx);
         }
 
-        // Перевірка умов збіжності ітераційного процесу
-        // TO DO: make it possible to change order of equation
-        bool CheckEquation()
-        {
-            for (int i = 0; i < equation.system.GetLength(0); i++)
-            {
-                double num1 = Abs(equation.system[i,i]); 
-                double num2 = 0;
-                for (int j = 0; j < equation.system.GetLength(0); j++)
-                {
-                    if (j != i)
-                    {
-                        num2 += Abs(equation.system[i, j]);
-                    }
-                }
-                if (num1 <= num2)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        
 
         // Ітерування (0 ітерація)
         void IterateZero()
