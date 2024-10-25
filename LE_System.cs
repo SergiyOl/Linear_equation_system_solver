@@ -96,7 +96,7 @@ namespace Linear_equation_systems
             double[] varArr = new double[system.GetLength(0)];
             double[] approxArr = new double[system.GetLength(0)];
 
-            // Знаходження змінних (Метод Зейзеля) (Gauss-Seidel method)
+            // Знаходження змінних (Метод Зейделя) (Gauss-Seidel method)
             if (isGaussSeidelMethod)
             {
                 for (int i = 0; i < system.GetLength(0); i++)
