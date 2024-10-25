@@ -18,6 +18,9 @@ namespace Linear_equation_systems
         public static double[,] arr1 = { { 5, -1, -1, 10 }, { 1, 4, -2, 8 }, { 4, 2, 7, 14 } };
         LE_System equation = new LE_System(arr1, 0.001, true);
 
+        TextBox[,] inputReferences = new TextBox[0, 0];
+        Label[,] labelReferences = new Label[0, 0];
+
 
         public Form1()
         {
@@ -26,12 +29,38 @@ namespace Linear_equation_systems
             ShowEquation();
         }
 
+        private void button_varAmountApply_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Int32.Parse(textBox_varAmount.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Поле приймає лише числові значення із мінімальним значенням 3", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            CreateInputs();
+        }
 
         void CreateInputs()
         {
+            // Початкове розміщення поля введення
             const int cordXStart = 50;
             const int cordYStart = 130;
-
+            // Очищення референсів
+            foreach (var item in inputReferences)
+            {
+                this.Controls.Remove(item);
+            }
+            foreach (var item in labelReferences)
+            {
+                this.Controls.Remove(item);
+            }
+            // Створення масивів для референсів
+            inputReferences = new TextBox[Int32.Parse(textBox_varAmount.Text), Int32.Parse(textBox_varAmount.Text) + 1];
+            labelReferences = new Label[Int32.Parse(textBox_varAmount.Text), Int32.Parse(textBox_varAmount.Text)];
+            // Створення полів введення
             int cordX = cordXStart;
             int cordY = cordYStart;
             for (int i = 0; i < Int32.Parse(textBox_varAmount.Text) ; i++)
@@ -45,6 +74,7 @@ namespace Linear_equation_systems
                         Size = new Size(50, 22)
                     };
                     this.Controls.Add(textBox);
+                    inputReferences[i, j] = textBox;
 
                     if (j != Int32.Parse(textBox_varAmount.Text) - 1)
                     {
@@ -57,6 +87,7 @@ namespace Linear_equation_systems
                             Text = "X1 + "
                         };
                         this.Controls.Add(label);
+                        labelReferences[i, j] = label;
                     }
                     else
                     {
@@ -69,6 +100,7 @@ namespace Linear_equation_systems
                             Text = "X1 = "
                         };
                         this.Controls.Add(label);
+                        labelReferences[i, j] = label;
                     }
 
                     cordX += 90;
@@ -81,6 +113,7 @@ namespace Linear_equation_systems
                     Size = new Size(50, 22)
                 };
                 this.Controls.Add(textBoxResult);
+                inputReferences[i, inputReferences.GetLength(1) - 1] = textBoxResult;
 
                 cordX = cordXStart;
                 cordY += 30;

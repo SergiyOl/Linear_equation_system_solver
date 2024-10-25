@@ -128,6 +128,7 @@ namespace Linear_equation_systems
             this.button_varAmountApply.TabIndex = 8;
             this.button_varAmountApply.Text = "Застосувати";
             this.button_varAmountApply.UseVisualStyleBackColor = true;
+            this.button_varAmountApply.Click += new System.EventHandler(this.button_varAmountApply_Click);
             // 
             // label3
             // 
