@@ -15,8 +15,10 @@ namespace Linear_equation_systems
     public partial class Form1 : Form
     {
         //public static double[,] arr1 = { { 20, 1, 1, 23 }, { 0.5, -5, 3, -6.5 }, { 2, -2, 10, 8 } };
-        public static double[,] arr1 = { { 5, -1, -1, 10 }, { 1, 4, -2, 8 }, { 4, 2, 7, 14 } };
-        LE_System equation = new LE_System(arr1, 0.001, true);
+        //public static double[,] arr1 = { { 5, -1, -1, 10 }, { 1, 4, -2, 8 }, { 4, 2, 7, 14 } };
+        //LE_System equation = new LE_System(arr1, 0.001, true);
+
+        LE_System equation;
 
         TextBox[,] inputReferences = new TextBox[0, 0];
         Label[,] labelReferences = new Label[0, 0];
@@ -31,18 +33,26 @@ namespace Linear_equation_systems
 
         private void button_varAmountApply_Click(object sender, EventArgs e)
         {
+            // Перевірка на правильність вводу даних
             try
             {
                 Int32.Parse(textBox_varAmount.Text);
             }
             catch
             {
-                MessageBox.Show("Поле приймає лише числові значення із мінімальним значенням 3", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Поле приймає лише цілі числові значення із мінімальним значенням 3", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (Int32.Parse(textBox_varAmount.Text) < 3)
+            {
+                MessageBox.Show("Поле приймає лише цілі числові значення із мінімальним значенням 3", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            // Створення полів введення
             CreateInputs();
         }
 
+        // Створення полів введення
         void CreateInputs()
         {
             // Початкове розміщення поля введення
@@ -135,6 +145,36 @@ namespace Linear_equation_systems
             label10.Text = string.Join("   ", equation.iterations.ElementAt(3).approx);
             label11.Text = string.Join("   ", equation.iterations.ElementAt(4).approx);
             label12.Text = string.Join("   ", equation.iterations.ElementAt(5).approx);*/
+        }
+
+        private void button_calculate_Click(object sender, EventArgs e)
+        {
+            double[,] system = new double[inputReferences.GetLength(0), inputReferences.GetLength(1)];
+            for (int i = 0; i < inputReferences.GetLength(0); i++)
+            {
+                for (int j = 0; j < inputReferences.GetLength(1); j++)
+                {
+                    if (inputReferences[i, j].Text == "")
+                    {
+                        system[i, j] = 0;
+                    }
+                    else
+                    {
+                        double.TryParse(inputReferences[i, j].Text, out system[i, j]);
+                    }
+                }
+            }
+
+            double approx;
+            if (double.TryParse(textBox_approx.Text, out approx))
+            {
+                MessageBox.Show("Поле наближення приймає лише числові значення (дробові числа розділяються крапкою)", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            bool isGaussSeidelMethod = radioButton_isGaussSeidelMethodTrue.Checked;
+
+            equation = new LE_System(system, approx, isGaussSeidelMethod);
         }
     }
 }

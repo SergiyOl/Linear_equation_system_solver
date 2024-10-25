@@ -84,6 +84,7 @@ namespace Linear_equation_systems
             this.button_calculate.TabIndex = 3;
             this.button_calculate.Text = "Обчислити";
             this.button_calculate.UseVisualStyleBackColor = true;
+            this.button_calculate.Click += new System.EventHandler(this.button_calculate_Click);
             // 
             // label1
             // 
