@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using static System.Math;
 
 namespace Linear_equation_systems
@@ -64,6 +59,9 @@ namespace Linear_equation_systems
                 // Відбір всіх чисел біля невідомих
                 double[] line = Enumerable.Range(0, system_initial.GetLength(0))
                                                 .Select(x => system_initial[i, x]).ToArray();
+                // Зведення всіх чисел до модуля
+                for (int k = 0; k < line.GetLength(0); k++)
+                    line[k] = Abs(line[k]);
                 // Знаходження індексу найбільшого числа
                 double maxValue = line.Max();
                 indexArr[i] = line.ToList().IndexOf(maxValue);
