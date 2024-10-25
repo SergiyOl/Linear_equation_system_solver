@@ -40,6 +40,7 @@ namespace Linear_equation_systems
             this.button_varAmountApply = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox_isGaussSeidelMethod.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,7 +119,7 @@ namespace Linear_equation_systems
             this.textBox_approx.Name = "textBox_approx";
             this.textBox_approx.Size = new System.Drawing.Size(100, 22);
             this.textBox_approx.TabIndex = 7;
-            this.textBox_approx.Text = "0.001";
+            this.textBox_approx.Text = "0,001";
             // 
             // button_varAmountApply
             // 
@@ -143,17 +144,27 @@ namespace Linear_equation_systems
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(264, 123);
+            this.label4.Location = new System.Drawing.Point(254, 123);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(220, 17);
             this.label4.TabIndex = 10;
             this.label4.Text = "(Пусте поле сприймається як 0)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(480, 123);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(253, 17);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "(Дробові числа розділяються комою)";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button_varAmountApply);
@@ -185,6 +196,7 @@ namespace Linear_equation_systems
         private System.Windows.Forms.Button button_varAmountApply;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 

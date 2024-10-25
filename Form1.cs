@@ -160,15 +160,19 @@ namespace Linear_equation_systems
                     }
                     else
                     {
-                        double.TryParse(inputReferences[i, j].Text, out system[i, j]);
+                        if (!double.TryParse(inputReferences[i, j].Text, out system[i, j]))
+                        {
+                            MessageBox.Show("Поля вводу чисел системи приймають лише числові значення (дробові числа розділяються комою)", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
                 }
             }
 
             double approx;
-            if (double.TryParse(textBox_approx.Text, out approx))
+            if (!double.TryParse(textBox_approx.Text, out approx))
             {
-                MessageBox.Show("Поле наближення приймає лише числові значення (дробові числа розділяються крапкою)", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Поле наближення приймає лише числові значення (дробові числа розділяються комою)", "Неправильно введені дані", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
