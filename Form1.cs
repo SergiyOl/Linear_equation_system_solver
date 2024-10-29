@@ -21,14 +21,13 @@ namespace Linear_equation_systems
         LE_System equation;
 
         TextBox[,] inputReferences = new TextBox[0, 0];
-        Label[,] labelReferences = new Label[0, 0];
+        Label[,] inputLabelReferences = new Label[0, 0];
 
 
         public Form1()
         {
             InitializeComponent();
             CreateInputs();
-            ShowEquation();
         }
 
         private void button_varAmountApply_Click(object sender, EventArgs e)
@@ -63,13 +62,13 @@ namespace Linear_equation_systems
             {
                 this.Controls.Remove(item);
             }
-            foreach (var item in labelReferences)
+            foreach (var item in inputLabelReferences)
             {
                 this.Controls.Remove(item);
             }
             // Створення масивів для референсів
             inputReferences = new TextBox[Int32.Parse(textBox_varAmount.Text), Int32.Parse(textBox_varAmount.Text) + 1];
-            labelReferences = new Label[Int32.Parse(textBox_varAmount.Text), Int32.Parse(textBox_varAmount.Text)];
+            inputLabelReferences = new Label[Int32.Parse(textBox_varAmount.Text), Int32.Parse(textBox_varAmount.Text)];
             // Створення полів введення
             int cordX = cordXStart;
             int cordY = cordYStart;
@@ -94,26 +93,26 @@ namespace Linear_equation_systems
                             Location = new Point(cordX + 55, cordY + 3),
                             Name = "label",
                             Size = new Size(20, 12),
-                            Text = "X1 + "
+                            Text = $"X{j + 1} + "
                         };
                         this.Controls.Add(label);
-                        labelReferences[i, j] = label;
+                        inputLabelReferences[i, j] = label;
                     }
                     else
                     {
                         Label label = new Label
                         {
                             AutoSize = true,
-                            Location = new Point(cordX + 50, cordY + 3),
+                            Location = new Point(cordX + 55, cordY + 3),
                             Name = "label",
                             Size = new Size(20, 12),
-                            Text = "X1 = "
+                            Text = $"X{j + 1} = "
                         };
                         this.Controls.Add(label);
-                        labelReferences[i, j] = label;
+                        inputLabelReferences[i, j] = label;
                     }
 
-                    cordX += 90;
+                    cordX += 95;
                 }
 
                 TextBox textBoxResult = new TextBox
@@ -130,25 +129,9 @@ namespace Linear_equation_systems
             }
         }
 
-        void ShowEquation()
-        {
-            // Output to labels (TO DELETE)
-            /*label1.Text = string.Join("   ", equation.iterations.ElementAt(0).variables);
-            label2.Text = string.Join("   ", equation.iterations.ElementAt(1).variables);
-            label3.Text = string.Join("   ", equation.iterations.ElementAt(2).variables);
-            label4.Text = string.Join("   ", equation.iterations.ElementAt(3).variables);
-            label5.Text = string.Join("   ", equation.iterations.ElementAt(4).variables);
-            label6.Text = string.Join("   ", equation.iterations.ElementAt(5).variables);
-            label7.Text = string.Join("   ", equation.iterations.ElementAt(0).approx);
-            label8.Text = string.Join("   ", equation.iterations.ElementAt(1).approx);
-            label9.Text = string.Join("   ", equation.iterations.ElementAt(2).approx);
-            label10.Text = string.Join("   ", equation.iterations.ElementAt(3).approx);
-            label11.Text = string.Join("   ", equation.iterations.ElementAt(4).approx);
-            label12.Text = string.Join("   ", equation.iterations.ElementAt(5).approx);*/
-        }
-
         private void button_calculate_Click(object sender, EventArgs e)
         {
+            // Збір даних необхідних для обчислення
             double[,] system = new double[inputReferences.GetLength(0), inputReferences.GetLength(1)];
             for (int i = 0; i < inputReferences.GetLength(0); i++)
             {
@@ -177,8 +160,43 @@ namespace Linear_equation_systems
             }
 
             bool isGaussSeidelMethod = radioButton_isGaussSeidelMethodTrue.Checked;
-
+            
+            // Вимикаємо кнопку
+            button_calculate.Enabled = false;
+            button_calculate.Text = "Обчислюємо...";
+            // Записуємо дані у систему та обчислюємо
             equation = new LE_System(system, approx, isGaussSeidelMethod);
+            // Вмикаємо кнопку
+            button_calculate.Enabled = true;
+            button_calculate.Text = "Обчислити";
+            // Перевірка можливості виконання
+            if (equation.isSolvable)
+                ShowEquation();
+            else
+                MessageBox.Show("Система із поданими значеннями немає рішення", "Система немає рішення", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        void ShowEquation()
+        {
+            // Приховування меню
+            Control[] menuReferences = { groupBox_isGaussSeidelMethod, button_calculate,
+                                        label1, label2, label3, label4, label5,
+                                        textBox_approx, textBox_varAmount, button_varAmountApply };
+            foreach (var item in menuReferences)
+            {
+                item.Hide();
+            }
+            foreach (var item in inputReferences)
+            {
+                item.Hide();
+            }
+            foreach (var item in inputLabelReferences)
+            {
+                item.Hide();
+            }
+        }
+
+
+
     }
 }
