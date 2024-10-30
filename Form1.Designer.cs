@@ -140,7 +140,7 @@ namespace Linear_equation_systems
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(66, 123);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(161, 17);
+            this.label3.Size = new System.Drawing.Size(181, 17);
             this.label3.TabIndex = 9;
             this.label3.Text = "Обчислювана система:";
             // 
@@ -215,6 +215,7 @@ namespace Linear_equation_systems
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_calculate);
             this.Controls.Add(this.groupBox_isGaussSeidelMethod);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.9F);
             this.Name = "Form1";
             this.Text = "Linear equation system solver";
             this.groupBox_isGaussSeidelMethod.ResumeLayout(false);

@@ -24,7 +24,7 @@ namespace Linear_equation_systems
         Label[,] inputLabelReferences = new Label[0, 0];
 
         int pageIndex = 0;
-        List<List<Control>> resultReferences = new List<List<Control>>();
+        List<List<Control>> resultReferences;
 
 
 
@@ -65,7 +65,7 @@ namespace Linear_equation_systems
         {
             // Початкове розміщення поля введення
             const int cordXStart = 50;
-            const int cordYStart = 130;
+            const int cordYStart = 150;
             // Очищення референсів
             foreach (var item in inputReferences)
             {
@@ -209,10 +209,87 @@ namespace Linear_equation_systems
             {
                 item.Show();
             }
+
+            CreateResultPages();
+            foreach (var item in resultReferences.ElementAt(0))
+                item.Show();
+            
         }
 
         void CreateResultPages()
         {
+            // Початкове розміщення
+            const int cordXStartResultPage = 50;
+            const int cordYStartResultPage = 130;
+
+            // Очищення результатів
+            resultReferences = new List<List<Control>>();
+
+            // Список референсів
+            List<Control> pageReferences = new List<Control>();
+
+            // Створення сторінки з таблицею
+            int cordX = cordXStartResultPage;
+            int cordY = cordYStartResultPage;
+            // Назва сторінки
+            Label labelPageName = new Label
+            {
+                AutoSize = true,
+                Location = new Point(cordX, cordY),
+                Name = "label",
+                Size = new Size(20, 12),
+                Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, 
+                                                System.Drawing.GraphicsUnit.Point, ((byte)(204))),
+                Text = "Розрахункова таблиця:",
+                Visible = false
+            };
+            this.Controls.Add(labelPageName);
+            pageReferences.Add(labelPageName);
+            cordY += 30;
+            // Позначення таблиці
+            Label label = new Label
+            {
+                AutoSize = true,
+                Location = new Point(cordX, cordY),
+                Name = "label",
+                Size = new Size(20, 12),
+                Text = "Номер ітерації:   Значення змінних   |||   Значення наближень",
+                Visible = false
+            };
+            this.Controls.Add(label);
+            pageReferences.Add(label);
+            cordY += 25;
+            // Створення таблиці
+            for (int i = 0; i < equation.iterations.Count(); i++)
+            {
+                string line = $"{i}:   ";
+
+                for (int j = 0; j < equation.iterations.ElementAt(i).variables.Length; j++)
+                    line += $"X{j + 1} = {equation.iterations.ElementAt(i).variables[j]}   ";
+                line += "|||   ";
+                for (int j = 0; j < equation.iterations.ElementAt(i).approx.Length; j++)
+                    line += $"@{j + 1} = {equation.iterations.ElementAt(i).approx[j]}   ";
+
+                Label labelIteration = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = line,
+                    Visible = false
+                };
+                this.Controls.Add(labelIteration);
+                pageReferences.Add(labelIteration);
+                cordY += 25;
+            }
+            resultReferences.Add(pageReferences);
+
+            // Зведення до розрахункової форми
+
+            // Ітерація 0
+
+            // Ітерація 1 - *
 
         }
 
