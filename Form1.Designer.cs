@@ -41,6 +41,9 @@ namespace Linear_equation_systems
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.button_previous = new System.Windows.Forms.Button();
+            this.button_next = new System.Windows.Forms.Button();
+            this.button_backToMenu = new System.Windows.Forms.Button();
             this.groupBox_isGaussSeidelMethod.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -159,11 +162,49 @@ namespace Linear_equation_systems
             this.label5.TabIndex = 11;
             this.label5.Text = "(Дробові числа розділяються комою)";
             // 
+            // button_previous
+            // 
+            this.button_previous.Enabled = false;
+            this.button_previous.Location = new System.Drawing.Point(64, 46);
+            this.button_previous.Name = "button_previous";
+            this.button_previous.Size = new System.Drawing.Size(153, 59);
+            this.button_previous.TabIndex = 12;
+            this.button_previous.Text = "Назад";
+            this.button_previous.UseVisualStyleBackColor = true;
+            this.button_previous.Visible = false;
+            this.button_previous.Click += new System.EventHandler(this.button_previous_Click);
+            // 
+            // button_next
+            // 
+            this.button_next.Location = new System.Drawing.Point(241, 46);
+            this.button_next.Name = "button_next";
+            this.button_next.Size = new System.Drawing.Size(153, 59);
+            this.button_next.TabIndex = 13;
+            this.button_next.Text = "Вперед";
+            this.button_next.UseVisualStyleBackColor = true;
+            this.button_next.Visible = false;
+            this.button_next.Click += new System.EventHandler(this.button_next_Click);
+            // 
+            // button_backToMenu
+            // 
+            this.button_backToMenu.Location = new System.Drawing.Point(597, 43);
+            this.button_backToMenu.Name = "button_backToMenu";
+            this.button_backToMenu.Size = new System.Drawing.Size(153, 59);
+            this.button_backToMenu.TabIndex = 14;
+            this.button_backToMenu.Text = "До меню";
+            this.button_backToMenu.UseVisualStyleBackColor = true;
+            this.button_backToMenu.Visible = false;
+            this.button_backToMenu.Click += new System.EventHandler(this.button_backToMenu_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_backToMenu);
+            this.Controls.Add(this.button_next);
+            this.Controls.Add(this.button_previous);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -197,6 +238,9 @@ namespace Linear_equation_systems
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button_previous;
+        private System.Windows.Forms.Button button_next;
+        private System.Windows.Forms.Button button_backToMenu;
     }
 }
 

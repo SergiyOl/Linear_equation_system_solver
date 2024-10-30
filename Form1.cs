@@ -23,10 +23,19 @@ namespace Linear_equation_systems
         TextBox[,] inputReferences = new TextBox[0, 0];
         Label[,] inputLabelReferences = new Label[0, 0];
 
+        int pageIndex = 0;
+        List<List<Control>> resultReferences = new List<List<Control>>();
+
+
 
         public Form1()
         {
             InitializeComponent();
+            /*button_previous.Enabled = false;
+            button_previous.Hide();
+            button_next.Hide();
+            button_backToMenu.Hide();*/
+
             CreateInputs();
         }
 
@@ -194,9 +203,75 @@ namespace Linear_equation_systems
             {
                 item.Hide();
             }
+            // Виведення керування сторінкою результатів
+            Control[] resultControlReferences = { button_previous, button_next, button_backToMenu};
+            foreach (var item in resultControlReferences)
+            {
+                item.Show();
+            }
         }
 
+        void CreateResultPages()
+        {
 
+        }
 
+        private void button_previous_Click(object sender, EventArgs e)
+        {
+            foreach (var item in resultReferences.ElementAt(pageIndex))
+                item.Hide();
+            pageIndex--;
+            foreach (var item in resultReferences.ElementAt(pageIndex))
+                item.Show();
+
+            button_next.Enabled = true;
+            if (pageIndex == 0)
+                button_previous.Enabled = false;
+        }
+
+        private void button_next_Click(object sender, EventArgs e)
+        {
+            foreach (var item in resultReferences.ElementAt(pageIndex))
+                item.Hide();
+            pageIndex++;
+            foreach (var item in resultReferences.ElementAt(pageIndex))
+                item.Show();
+
+            button_previous.Enabled = true;
+            if (pageIndex == resultReferences.Count - 1)
+                button_next.Enabled = false;
+        }
+
+        private void button_backToMenu_Click(object sender, EventArgs e)
+        {
+            // Приховування керування сторінкою результатів
+            Control[] resultControlReferences = { button_previous, button_next, button_backToMenu};
+            foreach (var item in resultControlReferences)
+            {
+                item.Hide();
+            }
+            // Приховування результатів
+            foreach (var list in resultReferences)
+                foreach (var item in list)
+                {
+                    this.Controls.Remove(item);
+                }
+            // Виведення меню
+            Control[] menuReferences = { groupBox_isGaussSeidelMethod, button_calculate,
+                                        label1, label2, label3, label4, label5,
+                                        textBox_approx, textBox_varAmount, button_varAmountApply };
+            foreach (var item in menuReferences)
+            {
+                item.Show();
+            }
+            foreach (var item in inputReferences)
+            {
+                item.Show();
+            }
+            foreach (var item in inputLabelReferences)
+            {
+                item.Show();
+            }
+        }
     }
 }
