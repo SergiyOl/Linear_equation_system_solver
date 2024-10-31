@@ -209,11 +209,15 @@ namespace Linear_equation_systems
             {
                 item.Show();
             }
-
+            // Скидання значень сторінки
+            pageIndex = 0;
+            button_previous.Enabled = false;
+            button_next.Enabled = true;
+            // Створення сторінок результатів
             CreateResultPages();
+            // Виведення першої сторінки
             foreach (var item in resultReferences.ElementAt(0))
                 item.Show();
-            
         }
 
         void CreateResultPages()
@@ -226,11 +230,14 @@ namespace Linear_equation_systems
             resultReferences = new List<List<Control>>();
 
             // Список референсів
-            List<Control> pageReferences = new List<Control>();
+            List<Control> pageReferences;
+
 
             // Створення сторінки з таблицею
             int cordX = cordXStartResultPage;
             int cordY = cordYStartResultPage;
+            // Створення сторінки
+            pageReferences = new List<Control>();
             // Назва сторінки
             Label labelPageName = new Label
             {
@@ -247,7 +254,7 @@ namespace Linear_equation_systems
             pageReferences.Add(labelPageName);
             cordY += 30;
             // Позначення таблиці
-            Label label = new Label
+            Label labelTable = new Label
             {
                 AutoSize = true,
                 Location = new Point(cordX, cordY),
@@ -256,8 +263,8 @@ namespace Linear_equation_systems
                 Text = "Номер ітерації:   Значення змінних   |||   Значення наближень",
                 Visible = false
             };
-            this.Controls.Add(label);
-            pageReferences.Add(label);
+            this.Controls.Add(labelTable);
+            pageReferences.Add(labelTable);
             cordY += 25;
             // Створення таблиці
             for (int i = 0; i < equation.iterations.Count(); i++)
@@ -283,14 +290,96 @@ namespace Linear_equation_systems
                 pageReferences.Add(labelIteration);
                 cordY += 25;
             }
+            // Збереження сторінки
             resultReferences.Add(pageReferences);
 
+
             // Зведення до розрахункової форми
+            cordX = cordXStartResultPage;
+            cordY = cordYStartResultPage;
+            // Створення сторінки
+            pageReferences = new List<Control>();
+            // Назва сторінки
+            labelPageName = new Label
+            {
+                AutoSize = true,
+                Location = new Point(cordX, cordY),
+                Name = "label",
+                Size = new Size(20, 12),
+                Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold,
+                                                System.Drawing.GraphicsUnit.Point, ((byte)(204))),
+                Text = "Зведення системи до розрахункової форми:",
+                Visible = false
+            };
+            this.Controls.Add(labelPageName);
+            pageReferences.Add(labelPageName);
+            cordY += 30;
+            
+
+
+
+            // Збереження сторінки
+            resultReferences.Add(pageReferences);
+
 
             // Ітерація 0
+            cordX = cordXStartResultPage;
+            cordY = cordYStartResultPage;
+            // Створення сторінки
+            pageReferences = new List<Control>();
+            // Назва сторінки
+            labelPageName = new Label
+            {
+                AutoSize = true,
+                Location = new Point(cordX, cordY),
+                Name = "label",
+                Size = new Size(20, 12),
+                Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold,
+                                                System.Drawing.GraphicsUnit.Point, ((byte)(204))),
+                Text = "Ітерація 0:",
+                Visible = false
+            };
+            this.Controls.Add(labelPageName);
+            pageReferences.Add(labelPageName);
+            cordY += 30;
+
+
+
+
+            // Збереження сторінки
+            resultReferences.Add(pageReferences);
+
 
             // Ітерація 1 - *
+            for (int iteration = 0; iteration < equation.iterations.Count(); iteration++)
+            {
+                cordX = cordXStartResultPage;
+                cordY = cordYStartResultPage;
+                // Створення сторінки
+                pageReferences = new List<Control>();
+                // Назва сторінки
+                labelPageName = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold,
+                                                    System.Drawing.GraphicsUnit.Point, ((byte)(204))),
+                    Text = $"Ітерація {iteration + 1}:",
+                    Visible = false
+                };
+                this.Controls.Add(labelPageName);
+                pageReferences.Add(labelPageName);
+                cordY += 30;
 
+
+
+
+                // Збереження сторінки
+                resultReferences.Add(pageReferences);
+            }
+            
         }
 
         private void button_previous_Click(object sender, EventArgs e)
