@@ -65,6 +65,13 @@ namespace Linear_equation_systems
                 // Знаходження індексу найбільшого числа
                 double maxValue = line.Max();
                 indexArr[i] = line.ToList().IndexOf(maxValue);
+                // Перевірка чи найбільше число більше суми модулів решти чисел
+                double summ = 0;
+                for (int n = 0; n < line.Length; n++)
+                    if (n != line.ToList().IndexOf(maxValue))
+                        summ += line[n];
+                if (summ >= maxValue)
+                    return false;
             }
             // Перевірка на неповторюваність значень в масиві
             bool isUnique = indexArr.ToList().Distinct().Count() == indexArr.Length;
