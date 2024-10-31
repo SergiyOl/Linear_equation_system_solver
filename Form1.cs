@@ -314,10 +314,145 @@ namespace Linear_equation_systems
             this.Controls.Add(labelPageName);
             pageReferences.Add(labelPageName);
             cordY += 30;
-            
+            // Початкова система
+            Label label = new Label
+            {
+                AutoSize = true,
+                Location = new Point(cordX, cordY),
+                Name = "label",
+                Size = new Size(20, 12),
+                Text = "Початкова система:",
+                Visible = false
+            };
+            this.Controls.Add(label);
+            pageReferences.Add(label);
+            cordY += 20;
 
+            for (int i = 0; i < equation.system_initial.GetLength(0); i++)
+            {
+                string line = "";
+                for(int j = 0; j < equation.system_initial.GetLength(1) - 1; j++)
+                {
+                    line += $"{equation.system_initial[i, j]} X{j+1} ";
+                    if (j < equation.system_initial.GetLength(1) - 2)
+                        line += "+ ";
+                    else
+                        line += "= ";
+                }
+                line += $"{equation.system_initial[i, equation.system_initial.GetLength(1) - 1]}";
 
+                label = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = line,
+                    Visible = false
+                };
+                this.Controls.Add(label);
+                pageReferences.Add(label);
+                cordY += 20;
+            }
+            // Змінена система
+            cordY += 10;
+            label = new Label
+            {
+                AutoSize = true,
+                Location = new Point(cordX, cordY),
+                Name = "label",
+                Size = new Size(20, 12),
+                Text = "Змінена система:",
+                Visible = false
+            };
+            this.Controls.Add(label);
+            pageReferences.Add(label);
+            cordY += 20;
 
+            for (int i = 0; i < equation.system.GetLength(0); i++)
+            {
+                string line = "";
+                for (int j = 0; j < equation.system.GetLength(1) - 1; j++)
+                {
+                    line += $"{equation.system[i, j]} X{j+1} ";
+                    if (j < equation.system.GetLength(1) - 2)
+                        line += "+ ";
+                    else
+                        line += "= ";
+                }
+                line += $"{equation.system[i, equation.system.GetLength(1) - 1]}";
+
+                label = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = line,
+                    Visible = false
+                };
+                this.Controls.Add(label);
+                pageReferences.Add(label);
+                cordY += 20;
+            }
+            // Перевірка
+            cordY += 10;
+            label = new Label
+            {
+                AutoSize = true,
+                Location = new Point(cordX, cordY),
+                Name = "label",
+                Size = new Size(20, 12),
+                Text = "Перевірка умов збіжності системи:",
+                Visible = false
+            };
+            this.Controls.Add(label);
+            pageReferences.Add(label);
+            cordY += 20;
+
+            for (int i = 0; i < equation.system.GetLength(0); i++)
+            {
+                string line = $"|{equation.system[i, i]}| > ";
+                for (int j = 0; j < equation.system.GetLength(1) - 1; j++)
+                {
+                    if (j != i)
+                    {
+                        line += $"|{equation.system[i, j]}|";
+                        if (i != equation.system.GetLength(1) - 2)
+                        {
+                            if (j < equation.system.GetLength(1) - 2)
+                            {
+                                line += " + ";
+                            }
+                        }
+                        else
+                        {
+                            if (j < equation.system.GetLength(1) - 3)
+                            {
+                                line += " + ";
+                            }
+                        }  
+                    }
+                }
+                double summ = 0;
+                for (int n = 0; n < equation.system.GetLength(1) - 1; n++)
+                    if (n != i)
+                        summ += Abs(equation.system[i, n]);
+                line += $"   |||   {Abs(equation.system[i, i])} > {summ}";
+
+                label = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = line,
+                    Visible = false
+                };
+                this.Controls.Add(label);
+                pageReferences.Add(label);
+                cordY += 20;
+            }
             // Збереження сторінки
             resultReferences.Add(pageReferences);
 
