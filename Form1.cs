@@ -478,15 +478,30 @@ namespace Linear_equation_systems
             pageReferences.Add(labelPageName);
             cordY += 30;
 
+            for (int i = 0; i < equation.system.GetLength(0); i++)
+            {
+                string line = $"X{i+1}^(0) = {equation.system[i, equation.system.GetLength(1) - 1]} " +
+                              $"/ {equation.system[i, i]} = {equation.iterations.ElementAt(0).variables[i]}";
 
-
-
+                label = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = line,
+                    Visible = false
+                };
+                this.Controls.Add(label);
+                pageReferences.Add(label);
+                cordY += 20;
+            }
             // Збереження сторінки
             resultReferences.Add(pageReferences);
 
 
             // Ітерація 1 - *
-            for (int iteration = 0; iteration < equation.iterations.Count(); iteration++)
+            for (int iteration = 0; iteration < equation.iterations.Count() - 1; iteration++)
             {
                 cordX = cordXStartResultPage;
                 cordY = cordYStartResultPage;
@@ -508,9 +523,155 @@ namespace Linear_equation_systems
                 pageReferences.Add(labelPageName);
                 cordY += 30;
 
+                string line;
+                if (equation.isGaussSeidelMethod)
+                    line = "Формула (Метод Зейделя):";
+                else
+                    line = "Формула (Метод ітерацій):";
+                label = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = line,
+                    Visible = false
+                };
+                this.Controls.Add(label);
+                pageReferences.Add(label);
+                cordY += 20;
+                //
 
+                for (int i = 0; i < equation.system.GetLength(0); i++)
+                {
+                    line = $"X{i + 1}^({iteration + 1}) = (";
+                    for (int j = 0; j < equation.system.GetLength(0); j++)
+                    {
+                        if (equation.isGaussSeidelMethod)
+                        {
+                            if (j < i)
+                            {
+                                line += $"{-equation.system[i, j]} * X{j + 1}^({iteration + 1}) + ";
+                            }
+                            if (j > i)
+                            {
+                                line += $"{-equation.system[i, j]} * X{j + 1}^({iteration}) + ";
+                            }
+                        }
+                        else
+                        {
+                            if (j != i)
+                            {
+                                line += $"{-equation.system[i, j]} * X{j + 1}^({iteration}) + ";
+                            }
+                        }
+                    }
+                    line += $"{equation.system[i, equation.system.GetLength(1) - 1]}) / {equation.system[i, i]}";
 
+                    label = new Label
+                    {
+                        AutoSize = true,
+                        Location = new Point(cordX, cordY),
+                        Name = "label",
+                        Size = new Size(20, 12),
+                        Text = line,
+                        Visible = false
+                    };
+                    this.Controls.Add(label);
+                    pageReferences.Add(label);
+                    cordY += 20;
+                }
 
+                cordY += 10;
+                label = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = "Вираховування ітерації:",
+                    Visible = false
+                };
+                this.Controls.Add(label);
+                pageReferences.Add(label);
+                cordY += 20;
+
+                for (int i = 0; i < equation.system.GetLength(0); i++)
+                {
+                    line = $"X{i + 1}^({iteration + 1}) = (";
+                    for (int j = 0; j < equation.system.GetLength(0); j++)
+                    {
+                        if (equation.isGaussSeidelMethod)
+                        {
+                            if (j < i)
+                            {
+                                line += $"{-equation.system[i, j]} * {equation.iterations.ElementAt(iteration + 1).variables[j]} + ";
+                            }
+                            if (j > i)
+                            {
+                                line += $"{-equation.system[i, j]} * {equation.iterations.ElementAt(iteration).variables[j]} + ";
+                            }
+                        }
+                        else
+                        {
+                            if (j != i)
+                            {
+                                line += $"{-equation.system[i, j]} * {equation.iterations.ElementAt(iteration).variables[j]} + ";
+                            }
+                        }
+                    }
+                    line += $"{equation.system[i, equation.system.GetLength(1) - 1]}) / {equation.system[i, i]} " +
+                            $"= {equation.iterations.ElementAt(iteration + 1).variables[i]}";
+
+                    label = new Label
+                    {
+                        AutoSize = true,
+                        Location = new Point(cordX, cordY),
+                        Name = "label",
+                        Size = new Size(20, 12),
+                        Text = line,
+                        Visible = false
+                    };
+                    this.Controls.Add(label);
+                    pageReferences.Add(label);
+                    cordY += 20;
+                }
+
+                cordY += 10;
+                label = new Label
+                {
+                    AutoSize = true,
+                    Location = new Point(cordX, cordY),
+                    Name = "label",
+                    Size = new Size(20, 12),
+                    Text = "Вираховування наближення:",
+                    Visible = false
+                };
+                this.Controls.Add(label);
+                pageReferences.Add(label);
+                cordY += 20;
+
+                for (int i = 0; i < equation.system.GetLength(0); i++)
+                {
+                    line = $"@{i}^({iteration + 1}) = |X{i}^({iteration + 1}) - X{i}^({iteration + 1})| / |X{i}^({iteration + 1})| = " +
+                           $"|{equation.iterations.ElementAt(iteration + 1).variables[i]} - {equation.iterations.ElementAt(iteration).variables[i]}| /" +
+                           $" |{equation.iterations.ElementAt(iteration + 1).variables[i]}| =  {equation.iterations.ElementAt(iteration + 1).approx[i]}";
+                    if (equation.iterations.ElementAt(iteration + 1).approx[i] < equation.target_approx)
+                        line += $"   < {equation.target_approx}";
+
+                    label = new Label
+                    {
+                        AutoSize = true,
+                        Location = new Point(cordX, cordY),
+                        Name = "label",
+                        Size = new Size(20, 12),
+                        Text = line,
+                        Visible = false
+                    };
+                    this.Controls.Add(label);
+                    pageReferences.Add(label);
+                    cordY += 20;
+                }
                 // Збереження сторінки
                 resultReferences.Add(pageReferences);
             }
